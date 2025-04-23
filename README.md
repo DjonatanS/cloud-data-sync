@@ -25,7 +25,7 @@ Cloud Data Sync is a tool that allows you to synchronize objects/files between d
 To install the package:
 
 ```sh
-go get github.com/djonatan/cloud-data-sync
+go get github.com/DjonatanS/cloud-data-sync
 ```
 
 ## Usage as a Library
@@ -39,10 +39,10 @@ import (
 	"context"
 	"log"
 	
-	"github.com/djonatan/cloud-data-sync/internal/config"
-	"github.com/djonatan/cloud-data-sync/internal/database"
-	"github.com/djonatan/cloud-data-sync/internal/storage"
-	"github.com/djonatan/cloud-data-sync/internal/sync"
+	"github.com/DjonatanS/cloud-data-sync/internal/config"
+	"github.com/DjonatanS/cloud-data-sync/internal/database"
+	"github.com/DjonatanS/cloud-data-sync/internal/storage"
+	"github.com/DjonatanS/cloud-data-sync/internal/sync"
 )
 
 func main() {
@@ -91,7 +91,7 @@ import (
 	"context"
 	"io"
 	
-	"github.com/djonatan/cloud-data-sync/internal/storage"
+	"github.com/DjonatanS/cloud-data-sync/internal/storage"
 )
 
 type Client struct {
@@ -244,10 +244,11 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 - djonatan - Original author
 
 ## Next Updates
+
 1. Memory and I/O optimization
    - Avoid reading the entire object into memory and then recreating `strings.NewReader(string(data))`. Instead, use `io.Pipe` or pass the `io.ReadCloser` directly for streaming upload.
    - Where buffering is still necessary, replace with `bytes.NewReader(data)` instead of converting to string:
-     ````go
+     ```go
      // filepath: internal/sync/sync.go
      readerFromData := bytes.NewReader(data)
      _, err = targetProvider.UploadObject(
@@ -258,7 +259,7 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
        int64(len(data)),
        srcObjInfo.ContentType,
      )
-     ````
+     ```
 
 2. Parallelism and concurrency control
    - Process multiple objects in parallel (e.g., `errgroup.Group` + `semaphore.Weighted`) to increase throughput without exceeding API or memory limits.

@@ -13,28 +13,24 @@ import (
 	"github.com/DjonatanS/cloud-data-sync/internal/storage"
 )
 
-// Synchronizer coordinates synchronization between storage providers
 type Synchronizer struct {
 	db              *database.DB
 	config          *config.Config
 	providerFactory *storage.Factory
-	logger          *slog.Logger // Add logger field
+	logger          *slog.Logger
 }
 
-// NewSynchronizer creates a new synchronizer
 func NewSynchronizer(db *database.DB, cfg *config.Config, factory *storage.Factory, logger *slog.Logger) *Synchronizer { // Accept logger
 	return &Synchronizer{
 		db:              db,
 		config:          cfg,
 		providerFactory: factory,
-		logger:          logger, // Store logger
+		logger:          logger,
 	}
 }
 
-// SyncAll synchronizes all configured mappings
 func (s *Synchronizer) SyncAll(ctx context.Context) error {
 	for _, mapping := range s.config.Mappings {
-		// Create a logger with mapping context
 		mapLogger := s.logger.With(
 			"source_provider", mapping.SourceProviderID,
 			"source_bucket", mapping.SourceBucket,
