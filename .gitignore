@@ -5,7 +5,7 @@
 *.so
 *.dylib
 cloud-data-sync
-
+.gitcommands
 *.config.json
 
 # Output binary at project root
