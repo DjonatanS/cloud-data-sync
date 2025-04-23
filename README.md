@@ -206,10 +206,6 @@ To run the continuous service (periodic synchronization):
 ./cloud-data-sync --config config.json --interval 60
 ```
 
-## Architecture
-
-The project follows Clean Architecture and SOLID principles, organizing the code into decoupled components:
-
 ### Internal Packages
 
 - **storage**: Defines the common interface for all storage providers.
@@ -221,13 +217,6 @@ The project follows Clean Architecture and SOLID principles, organizing the code
 - **config**: Manages the application configuration.
 - **database**: Provides metadata persistence for synchronization tracking.
 - **sync**: Implements the synchronization logic between providers.
-
-### Design Patterns Used
-
-- **Factory Method**: For creating instances of storage providers.
-- **Interface Segregation**: The `storage.Provider` interface defines a clear contract.
-- **Dependency Injection**: Components receive their dependencies via constructor.
-- **Strategy Pattern**: Specific provider implementations can be swapped without modifying client code.
 
 ## Dependencies
 
