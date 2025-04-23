@@ -241,7 +241,7 @@ Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## Authors
 
-- djonatan - Original author
+- [Djonatan](https://www.linkedin.com/in/djonatan-schvambach-25a2051bb/) - Original author
 
 ## Next Updates
 
