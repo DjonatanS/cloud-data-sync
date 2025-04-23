@@ -1,5 +1,8 @@
 # Cloud Data Sync
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/DjonatanS/cloud-data-sync.svg)](https://pkg.go.dev/github.com/DjonatanS/cloud-data-sync)
+
+
 A Go package for synchronizing data between different cloud storage providers. Supports Google Cloud Storage (GCS), Amazon S3, Azure Blob Storage, and MinIO (or any S3-compatible service).
 
 ## Overview
