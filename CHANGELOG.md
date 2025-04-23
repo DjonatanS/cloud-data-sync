@@ -1,5 +1,16 @@
 ## Changelog
 
+### [0.3.0] - 2025-04-23
+
+#### 📄 Documentation
+
+*   Updated `README.md` with latest information and planned features.
+*   Updated `CHANGELOG.md` to reflect recent changes.
+
+#### 🐳 Build
+
+*   Updated `Dockerfile` (specify changes if known, e.g., base image, build steps).
+
 ### [0.2.0] - 2025-04-20
 
 #### ✨ Features

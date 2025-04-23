@@ -209,6 +209,84 @@ To run the continuous service (periodic synchronization):
 ./cloud-data-sync --config config.json --interval 60
 ```
 
+## Usage with Docker
+
+You can also build and run the application using Docker. This isolates the application and its dependencies.
+
+### Prerequisites
+
+- Docker installed on your system.
+- Google Cloud SDK (`gcloud`) installed and configured with Application Default Credentials (ADC) if using GCS. Run `gcloud auth application-default login` if you haven't already.
+
+### Build the Docker Image
+
+Navigate to the project's root directory (where the `Dockerfile` is located) and run:
+
+```bash
+docker build -t cloud-data-sync:latest .
+```
+
+### Prepare for Execution
+
+1.  **Configuration File (`config.json`):** Ensure you have a valid `config.json` in your working directory.
+2.  **Data Directory:** Create a directory (e.g., `data_dir`) in your working directory. This will store the SQLite database (`data.db`) and persist it outside the container.
+3.  **Update `databasePath`:** Modify the `databasePath` in your `config.json` to point to the location *inside* the container where the data directory will be mounted, e.g., `"databasePath": "/app/data/data.db"`.
+4.  **GCP Credentials:** The run command below assumes your GCP ADC file is at `~/.config/gcloud/application_default_credentials.json`. Adjust the path if necessary.
+
+### Run the Container
+
+Execute the container using `docker run`. You need to mount volumes for the configuration file, the data directory, and your GCP credentials.
+
+**Example 1: Run a single synchronization (`--once`)**
+
+```bash
+# Define the path to your ADC file
+ADC_FILE_PATH="$HOME/.config/gcloud/application_default_credentials.json"
+
+# Check if the ADC file exists
+if [ ! -f "$ADC_FILE_PATH" ]; then
+    echo "Error: GCP ADC file not found at $ADC_FILE_PATH"
+    echo "Run 'gcloud auth application-default login' first."
+else
+    # Ensure config.json is present and data_dir exists
+    # Ensure databasePath in config.json is "/app/data/data.db"
+    docker run --rm \\
+      -v "$(pwd)/config.json":/app/config.json \\
+      -v "$(pwd)/data_dir":/app/data \\
+      -v "$ADC_FILE_PATH":/app/gcp_credentials.json \\
+      -e GOOGLE_APPLICATION_CREDENTIALS=/app/gcp_credentials.json \\
+      cloud-data-sync:latest --config /app/config.json --once
+fi
+```
+
+**Example 2: Run in continuous mode (`--interval`)**
+
+```bash
+# Define the path to your ADC file
+ADC_FILE_PATH="$HOME/.config/gcloud/application_default_credentials.json"
+
+# Check if the ADC file exists
+if [ ! -f "$ADC_FILE_PATH" ]; then
+    echo "Error: GCP ADC file not found at $ADC_FILE_PATH"
+    echo "Run 'gcloud auth application-default login' first."
+else
+    # Ensure config.json is present and data_dir exists
+    # Ensure databasePath in config.json is "/app/data/data.db"
+    docker run --rm \\
+      -v "$(pwd)/config.json":/app/config.json \\
+      -v "$(pwd)/data_dir":/app/data \\
+      -v "$ADC_FILE_PATH":/app/gcp_credentials.json \\
+      -e GOOGLE_APPLICATION_CREDENTIALS=/app/gcp_credentials.json \\
+      cloud-data-sync:latest --config /app/config.json --interval 60
+fi
+```
+
+**Example 3: Generate a default configuration**
+
+```bash
+docker run --rm cloud-data-sync:latest --generate-config > config.json.default
+```
+
 ### Internal Packages
 
 - **storage**: Defines the common interface for all storage providers.

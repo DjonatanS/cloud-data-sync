@@ -7,7 +7,7 @@
 cloud-data-sync
 .gitcommands
 *.config.json
-
+*config.json
 # Output binary at project root
 /cloud-data-sync
 
